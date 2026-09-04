@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.1;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+        <LangVersion>14</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <OutputType>Library</OutputType>
+        <Version>1.0.0</Version>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <!-- NuGet Packaging -->
+        <PackageId>AndanteTribe.SerializableFormat.MessagePack</PackageId>
+        <PackageVersion>$(Version)</PackageVersion>
+        <Authors>AndanteTribe</Authors>
+        <Copyright>© AndanteTribe</Copyright>
+        <Description>A serializable alternative to .NET 8's System.Text.CompositeFormat.</Description>
+        <PackageProjectUrl>https://github.com/AndanteTribe/SerializableFormat</PackageProjectUrl>
+        <RepositoryUrl>$(PackageProjectUrl)</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\README.md" Pack="true" PackagePath="" />
+        <ProjectReference Include="..\SerializableFormat\SerializableFormat.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MessagePack" Version="3.1.8" />
+    </ItemGroup>
+
+</Project>
