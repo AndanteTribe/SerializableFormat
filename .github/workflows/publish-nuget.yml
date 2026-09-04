@@ -1,0 +1,36 @@
+name: Publish to NuGet
+
+on:
+    workflow_dispatch: {}
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            # ghasec-ignore: unpinned-action
+            - uses: AndanteTribe/Actions/actions/checkout@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
+            # ghasec-ignore: unpinned-action
+            - uses: AndanteTribe/Actions/actions/setup-dotnet@main # zizmor: ignore[unpinned-uses] repository-local action reference is intentionally tracked on @main
+              with:
+                  dotnet-version: '10.0.x'
+            - name: Restore
+              run: dotnet restore ./SerializableFormat.slnx
+            - name: Build
+              run: dotnet build ./SerializableFormat.slnx --configuration Release --no-restore
+            - name: Pack
+              run: |
+                  dotnet pack ./src/SerializableFormat/SerializableFormat.csproj --configuration Release --no-build --no-restore --output ./artifacts
+                  dotnet pack ./src/SerializableFormat.Json/SerializableFormat.Json.csproj --configuration Release --no-build --no-restore --output ./artifacts
+                  dotnet pack ./src/SerializableFormat.MessagePack/SerializableFormat.MessagePack.csproj --configuration Release --no-build --no-restore --output ./artifacts
+            - name: Publish to NuGet
+              run: find . -type f -name "*.nupkg" -print0 | xargs -0 -I pkg dotnet nuget push pkg --api-key "$NUGET_API_KEY" --source "https://api.nuget.org/v3/index.json" --skip-duplicate
+              env:
+                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+              working-directory: ./artifacts

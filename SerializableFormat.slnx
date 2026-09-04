@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/SerializableFormat.Json/SerializableFormat.Json.csproj" />
+  <Project Path="src/SerializableFormat.MessagePack/SerializableFormat.MessagePack.csproj" />
+  <Project Path="src/SerializableFormat/SerializableFormat.csproj" />
+  <Project Path="tests/SerializableFormat.Tests/SerializableFormat.Tests.csproj" />
+</Solution>
