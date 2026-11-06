@@ -80,7 +80,7 @@ public sealed class CompositeFormatJsonConverterTests
     [MemberData(nameof(InvalidPayloads))]
     public void Deserialize_StructurallyInvalidPayload_ThrowsJsonException(string json)
     {
-        Assert.Throws<JsonException>(() =>
+        _ = Assert.Throws<JsonException>(() =>
             JsonSerializer.Deserialize<SutCompositeFormat>(json, s_options));
     }
 

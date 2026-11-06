@@ -150,7 +150,7 @@ public sealed class FormatExtensionsTests
         Assert.Equal(expected, string.Format(s_invariantCulture, format, args));
 
         var builder = new StringBuilder();
-        builder.AppendFormat(s_invariantCulture, format, args);
+        _ = builder.AppendFormat(s_invariantCulture, format, args);
         Assert.Equal(expected, builder.ToString());
 
         var destination = new char[expected.Length];
@@ -175,7 +175,7 @@ public sealed class FormatExtensionsTests
 
         var builderTracker = new CallTracker();
         var builder = new StringBuilder();
-        builder.AppendFormat(s_invariantCulture, format, new SpanFormattableValue(builderTracker));
+        _ = builder.AppendFormat(s_invariantCulture, format, new SpanFormattableValue(builderTracker));
         Assert.Equal("<      span-X>", builder.ToString());
         Assert.True(builderTracker.TryFormatCalled);
         Assert.False(builderTracker.ToStringCalled);
@@ -205,7 +205,7 @@ public sealed class FormatExtensionsTests
         Assert.False(tracker.ToStringCalled);
 
         var builder = new StringBuilder();
-        builder.AppendFormat(provider, format, value);
+        _ = builder.AppendFormat(provider, format, value);
         Assert.Equal("<  custom>", builder.ToString());
 
         Span<char> destination = stackalloc char[16];
@@ -231,9 +231,9 @@ public sealed class FormatExtensionsTests
         var builder = new StringBuilder("existing");
         var destination = new char[32];
 
-        Assert.Throws<FormatException>(() => FormatExtensions.Format(s_invariantCulture, format, 0));
-        Assert.Throws<FormatException>(() => builder.AppendFormat(s_invariantCulture, format, 0));
-        Assert.Throws<FormatException>(() => destination.AsSpan().TryWrite(s_invariantCulture, format, out _, 0));
+        _ = Assert.Throws<FormatException>(() => FormatExtensions.Format(s_invariantCulture, format, 0));
+        _ = Assert.Throws<FormatException>(() => builder.AppendFormat(s_invariantCulture, format, 0));
+        _ = Assert.Throws<FormatException>(() => destination.AsSpan().TryWrite(s_invariantCulture, format, out _, 0));
         Assert.Equal("existing", builder.ToString());
     }
 
@@ -247,11 +247,11 @@ public sealed class FormatExtensionsTests
         Assert.Equal("format", Assert.Throws<ArgumentNullException>(
             () => FormatExtensions.Format(s_invariantCulture, null!, 0)).ParamName);
         Assert.Equal("args", Assert.Throws<ArgumentNullException>(
-            () => FormatExtensions.Format(s_invariantCulture, format, (object?[])null!)).ParamName);
+            () => FormatExtensions.Format(s_invariantCulture, format, null!)).ParamName);
         Assert.Equal("args", Assert.Throws<ArgumentNullException>(
-            () => builder.AppendFormat(s_invariantCulture, format, (object?[])null!)).ParamName);
+            () => builder.AppendFormat(s_invariantCulture, format, null!)).ParamName);
         Assert.Equal("args", Assert.Throws<ArgumentNullException>(
-            () => destination.AsSpan().TryWrite(s_invariantCulture, format, out _, (object?[])null!)).ParamName);
+            () => destination.AsSpan().TryWrite(s_invariantCulture, format, out _, null!)).ParamName);
     }
 
     private static SerializableCompositeFormat Parse(string format) => SerializableCompositeFormat.Parse(format);
@@ -306,7 +306,7 @@ public sealed class FormatExtensionsTests
     {
         Assert.Same(expected, actual);
         Assert.Equal(expectedText, actual.ToString());
-        actual.Clear();
+        _ = actual.Clear();
     }
 
     private static void AssertTryWrite<TArg0>(Span<char> destination, SerializableCompositeFormat format, string expected, TArg0 arg0)
