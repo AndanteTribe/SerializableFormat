@@ -105,7 +105,7 @@ public sealed class CompositeFormatMessagePackFormatterTests
     {
         var payload = MessagePackSerializer.Serialize("not an array");
 
-        Assert.Throws<MessagePackSerializationException>(() =>
+        _ = Assert.Throws<MessagePackSerializationException>(() =>
             MessagePackSerializer.Deserialize<SutCompositeFormat>(payload, s_options));
     }
 
@@ -114,7 +114,7 @@ public sealed class CompositeFormatMessagePackFormatterTests
     {
         var payload = SerializeObjectArray(["payload", Array.Empty<object?>(), 0, 0]);
 
-        Assert.Throws<MessagePackSerializationException>(() =>
+        _ = Assert.Throws<MessagePackSerializationException>(() =>
             MessagePackSerializer.Deserialize<SutCompositeFormat>(payload, s_options));
     }
 
@@ -133,7 +133,7 @@ public sealed class CompositeFormatMessagePackFormatterTests
                 0,
             ]);
 
-        Assert.Throws<MessagePackSerializationException>(() =>
+        _ = Assert.Throws<MessagePackSerializationException>(() =>
             MessagePackSerializer.Deserialize<SutCompositeFormat>(payload, s_options));
     }
 
